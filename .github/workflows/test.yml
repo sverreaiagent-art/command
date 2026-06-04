@@ -1,28 +1,17 @@
-name: test
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
+name: Test Agent
 
-permissions:
-  contents: read
+on:
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
-      - name: setup node
-        uses: actions/setup-node@v6
+      - uses: actions/setup-python@v5
         with:
-          node-version-file: .node-version
-          cache: 'npm'
+          python-version: "3.11"
 
-      - name: install dependencies
-        run: npm ci
-
-      - name: test
-        run: npm run ci-test
+      - run: python main.py
